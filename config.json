@@ -1,0 +1,43 @@
+{
+  "bot_settings": {
+    "command_prefix": "!",
+    "default_status": "idle",
+    "default_activity": "FEETS",
+    "loading_bar_duration": 2,
+    "loading_bar_length": 20
+  },
+  "environment_variables": {
+    "bot_tokens": {
+      "Kara Tenki": "BOT_TOKEN_KARA_TENKI",
+      "Lilly": "BOT_TOKEN_Lilly"
+    }
+  },
+  "allowed_guilds_channels": {
+    "1260253270627319868": ["1277999262667640946"],
+    "1244424002571599882": ["1279151335828226179"]
+  },
+  "guild_restricted_mentions": {
+    "1260253270627319868": ["@everyone", "@here"]
+  },
+  "allowed_users": {
+    "primary_user_id": 595391505208967168,
+    "allowed_user_ids": [
+      595391505208967168,
+      974800514661363712,
+      1203784697130385472,
+      1224111094180876433,
+      643450887523532806,
+      470880906937106432,
+      708047987510607992
+    ]
+  },
+  "cogs": {
+    "auto_load": true,
+    "cogs_directory": "./cogs"
+  },
+  "logging": {
+    "enabled": true,
+    "level": "INFO",
+    "format": "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+  }
+} 
