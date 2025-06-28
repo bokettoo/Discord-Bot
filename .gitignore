@@ -49,6 +49,7 @@ download/
 images/
 cogs/cookies.txt
 cogs/__pycache__/
+trash/
 
 # OS
 .DS_Store
