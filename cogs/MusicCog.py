@@ -104,6 +104,11 @@ class Music(commands.Cog):
         )
     ):
         """Main play command with improved error handling."""
+        # Check if command is used in a guild
+        if not interaction.guild:
+            await interaction.response.send_message("This command can only be used in a server, not in DMs.", ephemeral=True)
+            return
+            
         # Defer the response to allow more time for processing
         await interaction.response.defer(ephemeral=False)
 
@@ -158,6 +163,10 @@ class Music(commands.Cog):
 
     async def play_next_song(self, interaction):
         """Play the next song in the queue."""
+        # Check if interaction has guild context
+        if not interaction.guild:
+            return
+            
         guild_id = interaction.guild.id
         
         if not self.song_queue.get(guild_id):
@@ -205,6 +214,11 @@ class Music(commands.Cog):
 
     @nextcord.slash_command(name="stop", description="Stop the music and leave the voice channel.")
     async def stop_music(self, interaction: Interaction):
+        # Check if command is used in a guild
+        if not interaction.guild:
+            await interaction.response.send_message("This command can only be used in a server, not in DMs.", ephemeral=True)
+            return
+            
         guild_id = interaction.guild.id
 
         if guild_id in self.voice_clients:
@@ -227,6 +241,11 @@ class Music(commands.Cog):
 
     @nextcord.slash_command(name="skip", description="Skip the currently playing song.")
     async def skip_music(self, interaction: Interaction):
+        # Check if command is used in a guild
+        if not interaction.guild:
+            await interaction.response.send_message("This command can only be used in a server, not in DMs.", ephemeral=True)
+            return
+            
         guild_id = interaction.guild.id
 
         if guild_id not in self.voice_clients:

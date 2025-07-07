@@ -53,33 +53,61 @@ class DMHistory(commands.Cog):
             messages.reverse()
             
             # Create formatted text output
-            output = f"# 💬 Conversation with {user.name}\n"
-            output += f"Last {len(messages)} messages in DM history\n\n"
+            output = f"# 💬 DM History with {user.name}\n"
+            output += f"📊 **{len(messages)} messages** • 📅 **{datetime.datetime.now().strftime('%B %d, %Y at %I:%M %p')}**\n"
+            output += "─" * 50 + "\n\n"
             
             if not messages:
-                output += "**No Messages**\nNo message history found with this user.\n"
+                output += "**📭 No Messages Found**\n"
+                output += "No message history found with this user.\n"
             else:
                 for i, msg in enumerate(messages, 1):
                     # Create timestamp format
-                    timestamp = msg.created_at.strftime("%b %d, %H:%M")
+                    timestamp = msg.created_at.strftime("%b %d, %I:%M %p")
                     
                     # Different styling for bot vs user messages
                     if msg.author.id == self.bot.user.id:
-                        output += f"**🤖 Bot • {timestamp}**\n"
+                        output += f"**🤖 Bot** • `{timestamp}`\n"
                     else:
-                        output += f"**👤 {user.name} • {timestamp}**\n"
+                        output += f"**👤 {user.name}** • `{timestamp}`\n"
                     
                     content = msg.content if msg.content else "*[No text content]*"
-                    
-                    # Add attachments info if any
-                    if msg.attachments:
-                        content += f"\n*[{len(msg.attachments)} attachment(s)]*"
-                    
                     output += f"{content}\n\n"
             
-            output += f"*Requested by {interaction.user.name} at {datetime.datetime.now().strftime('%b %d, %H:%M')}*"
+            output += "─" * 50 + "\n"
+            output += f"*Requested by {interaction.user.name}*"
             
+            # Send the text content first
             await interaction.followup.send(output, ephemeral=private)
+            
+            # Now send attachments as separate follow-ups
+            for msg in messages:
+                if msg.attachments:
+                    for attachment in msg.attachments:
+                        # Check if it's an image
+                        if attachment.content_type and attachment.content_type.startswith('image/'):
+                            # Create embed for the image
+                            embed = nextcord.Embed(
+                                title=f"Image from {msg.author.name}",
+                                description=f"Sent on {msg.created_at.strftime('%b %d, %Y at %I:%M %p')}",
+                                color=0x00ff00 if msg.author.id == self.bot.user.id else 0x0099ff
+                            )
+                            embed.set_image(url=attachment.url)
+                            
+                            # Add original message content if any
+                            if msg.content:
+                                embed.add_field(name="Message", value=msg.content[:1024], inline=False)
+                            
+                            await interaction.followup.send(embed=embed, ephemeral=private)
+                        else:
+                            # For non-image attachments, send as a simple message
+                            attachment_msg = f"📎 **File from {msg.author.name}** • `{msg.created_at.strftime('%b %d, %I:%M %p')}`\n"
+                            attachment_msg += f"**{attachment.filename}**\n"
+                            if msg.content:
+                                attachment_msg += f"*Message: {msg.content}*\n"
+                            attachment_msg += f"🔗 [Download]({attachment.url})"
+                            
+                            await interaction.followup.send(attachment_msg, ephemeral=private)
             
         except nextcord.Forbidden:
             await interaction.followup.send("I don't have permission to access DM history with this user.", ephemeral=True)

@@ -288,6 +288,7 @@ def loading_bar(duration=LOADING_BAR_DURATION, bar_length=LOADING_BAR_LENGTH):
 # Set up bot intents
 intents = nextcord.Intents.all()
 intents.members = True
+intents.message_content = True 
 
 client = commands.Bot(command_prefix=COMMAND_PREFIX, intents=intents)
 

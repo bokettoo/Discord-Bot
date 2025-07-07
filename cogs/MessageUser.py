@@ -22,7 +22,7 @@ class MessageUser(commands.Cog):
         message: str = SlashOption(
             name="message",
             description="The message you want to send",
-            required=True
+            required=False
         ),
         attachment: nextcord.Attachment = SlashOption(
             name="attachment",

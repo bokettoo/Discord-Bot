@@ -31,6 +31,10 @@
       708047987510607992
     ]
   },
+  "shell_settings": {
+    "shell_channel_id": 1391750997172424714
+  },
+
   "cogs": {
     "auto_load": true,
     "cogs_directory": "./cogs"

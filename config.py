@@ -48,6 +48,9 @@ def get_default_config():
                 708047987510607992
             ]
         },
+        "shell_settings": {
+            "shell_channel_id": 1391750997172424714
+        },
         "cogs": {
             "auto_load": True,
             "cogs_directory": "./cogs"
@@ -96,6 +99,9 @@ LOADING_BAR_LENGTH = config["bot_settings"]["loading_bar_length"]
 # Cogs settings
 COGS_AUTO_LOAD = config["cogs"]["auto_load"]
 COGS_DIRECTORY = config["cogs"]["cogs_directory"]
+
+# Shell settings
+SHELL_CHANNEL_ID = config["shell_settings"]["shell_channel_id"]
 
 # Logging settings
 LOGGING_ENABLED = config["logging"]["enabled"]
